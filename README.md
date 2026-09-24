@@ -60,10 +60,31 @@ python -m unittest discover -s tests -v
    ten test cases use dictionaries (`{"W1": [0, 0]}`) and `warehouse`. The
    parser accepts both formats so the provided files can be tested without
    manual editing.
-7. **Sample-report discrepancy:** The numeric sample report in the PDF does
-   not match the Euclidean-distance rules when applied to the supplied base
-   input. This implementation follows the explicit task rules rather than
-   hard-coding the sample numbers.
+## Implementation assumptions
+
+1. **Nearest-agent assignment:** A package is assigned to the agent with the
+   smallest Euclidean distance from the agent's initial location to that
+   package's warehouse.
+
+2. **Tie-breaking:** If two agents have exactly the same distance, the
+   lexicographically smaller agent ID is selected.
+
+3. **Multi-package routing:** Each package is treated as an independent trip:
+   `agent → warehouse → destination`.
+
+4. **Efficiency:** `total_distance / packages_delivered`.
+   Agents with zero deliveries have efficiency `0.0`.
+
+5. **Best agent:** The agent with the lowest average distance per delivered
+   package is selected. Agents with zero deliveries are excluded.
+
+6. **Input-format discrepancy:** The supplied input files use different
+   structures, so the parser accepts both supported formats.
+
+7. **Sample-report discrepancy:** The numeric sample report provided in the
+   PDF does not match the Euclidean-distance calculation described in the
+   task when applied to the supplied base input. This implementation follows
+   the explicit task rules rather than hard-coding the sample values.
 
 ## Project structure
 
